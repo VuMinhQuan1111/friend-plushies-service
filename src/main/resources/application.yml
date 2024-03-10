@@ -1,0 +1,71 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 70MB
+server:
+  connection-timeout: 300
+  port: 8080
+
+---
+spring.jackson.serialization.fail-on-empty-beans: false
+spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: true
+spring.jackson.serialization.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS: true
+
+---
+api:
+  enable_security: false
+  enable_swagger: true
+
+---
+logging:
+  level:
+    org.hibernate.SQL: INFO
+    org.hibernate.type: INFO
+    org.springframework.web: INFO
+    hibernate: ERROR
+    com.crms: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+---
+#aws:
+#  access:
+#    key:
+#      secret: geAa3JaRlPaCmxAPKoDqX7WEpkCZWshBQeeB7Okv
+#      id: AKIAVTIV3C2TKZCNDHRP
+
+---
+datasource:
+  properties:
+    scanPackage: com.crms.model.entity
+    driverClassName: org.postgresql.Driver
+  hibernate:
+    hbm2ddl.method: none
+    show_sql: false
+    format_sql: true
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    use_jdbc_metadata_defaults: false
+    enable_lazy_load_no_trans: true
+    default_schema: public
+  hikari:
+    connectionTimeout: 30000
+    idleTimeout: 600000
+    maxLifetime: 1800000
+---
+spring:
+  profiles: default
+datasource:
+  properties:
+#    url: jdbc:postgresql://crms.c8kw13dzsxcl.ap-southeast-1.rds.amazonaws.com:5432/postgres
+#    username: postgres
+#    password: "Converse123!"
+    url:
+    username:
+    password:
+#aws:
+#  region: ap-southeast-1
+#  s3:
+#    bucket: red.dev
+---
