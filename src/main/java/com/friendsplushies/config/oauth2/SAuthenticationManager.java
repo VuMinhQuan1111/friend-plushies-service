@@ -5,6 +5,7 @@ import com.friendsplushies.repository.UserRepository;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -22,12 +23,6 @@ public class SAuthenticationManager implements AuthenticationManager {
   @Autowired
   private UserRepository userRepository;
 
-//  @Autowired
-//  private UserTypePermissionRepository userTypePermissionRepository;
-//
-//  @Autowired
-//  private UserPermissionRepository userPermissionRepository;
-
   @Override
   public Authentication authenticate(Authentication authentication) {
     SAuthentication sAuth = (SAuthentication) authentication;
@@ -40,7 +35,7 @@ public class SAuthenticationManager implements AuthenticationManager {
     // return authentication
     SUserDetails userDetails = new SUserDetails();
     userDetails.setUserId(user.getUserId());
-    userDetails.setType(user.getType());
+//    userDetails.setType(user.getType());
     userDetails.setUsername(user.getUsername());
     userDetails.setName(user.getName());
 
@@ -79,9 +74,9 @@ public class SAuthenticationManager implements AuthenticationManager {
         if (user == null) {
           return null;
         }
-        if(user.getStatus().equalsIgnoreCase("INACTIVE")){
-          throw new OAuth2Exception("User have been locked");
-        }
+//        if(user.getStatus().equalsIgnoreCase("INACTIVE")){
+//          throw new OAuth2Exception("User have been locked");
+//        }
         verifyPassword(request, user);
         return user;
       case "email":

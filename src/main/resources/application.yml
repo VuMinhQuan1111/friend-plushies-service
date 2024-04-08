@@ -39,7 +39,7 @@ logging:
 ---
 datasource:
   properties:
-    scanPackage: com.crms.model.entity
+    scanPackage: com.friendsplushies.model.entity
     driverClassName: org.postgresql.Driver
 
   hibernate:

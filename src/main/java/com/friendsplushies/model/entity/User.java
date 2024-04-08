@@ -39,7 +39,7 @@ public class User implements Serializable, FEntity {
   @Column(name = "dob")
   private Date dob;
 
-  @Column(name = "user_real_name")
+  @Column(name = "user_full_name")
   @IgnorePreparingRequest
   private String name;
 
