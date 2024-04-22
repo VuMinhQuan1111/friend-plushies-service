@@ -20,21 +20,5 @@ import org.springframework.util.StringUtils;
 public interface UserMapper extends IMapper<UserRequest, UserResponse, User> {
 
   UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
-  @Mappings(
-      @Mapping(target = "name", expression = "java(generateName(request))")
-  )
   User toEntity(UserRequest request);
-
-  @Named("generateName")
-  default String generateName(UserRequest request) {
-    List name = new ArrayList();
-    if (!StringUtils.isEmpty(request.getFirstName())) {
-      name.add(request.getFirstName());
-    }
-    if (!StringUtils.isEmpty(request.getLastName())) {
-      name.add(request.getLastName());
-    }
-    return String.join(" ", name);
-  }
 }

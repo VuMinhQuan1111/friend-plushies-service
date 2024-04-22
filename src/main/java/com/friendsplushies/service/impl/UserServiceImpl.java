@@ -238,8 +238,6 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
       }
     }
 
-    UserType userType = UserType.userType(userUpdateRequest.getType());
-
     MappingUtil.setParameter(User.class, request, user);
 
     userRepository.save(user);
@@ -407,8 +405,6 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
         throw new IllegalArgumentException("Username already existed");
       }
     }
-
-    UserType userType = UserType.userType(userRequest.getType());
 
     MappingUtil.setParameter(User.class, request, user);
     userRepository.save(user);

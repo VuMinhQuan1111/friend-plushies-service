@@ -31,7 +31,7 @@ public class SwaggerConfig {
         .securityContexts(Collections.singletonList(securityContext()))
         .useDefaultResponseMessages(false)
         .select()
-        .apis(RequestHandlerSelectors.basePackage("com.crms"))
+        .apis(RequestHandlerSelectors.basePackage("com.friendsplushies"))
         .build()
         .apiInfo(apiInfo());
   }
