@@ -30,31 +30,10 @@ public class UserRequest {
 //  @Regex(regex = RegexValidator.NAME)
   protected String name;
 
-//  @TypeCheck(value = UserType.class)
-  private String type;
-
-  @TypeCheck(value = ObjectStatus.class)
-  private String status;
-
 //  @Regex(regex = RegexValidator.PHONE)
   private String phone;
 
   private String address;
-  private String title;
-  private String facebookId;
-  private String googleId;
-  private String gender;
-  private String firstName;
-  private String lastName;
-//  private String linkedin;
-//  private String facebook;
-//  private String twitter;
-//  private String youtube;
-//  private String whatsapp;
-  private String mobile;
-  private String position;
-//  private Long officeId;
-//  private Long dailyGoal;
 
   public UserRequest preRequest() {
     if (StringUtils.isNotBlank(this.getName())) {

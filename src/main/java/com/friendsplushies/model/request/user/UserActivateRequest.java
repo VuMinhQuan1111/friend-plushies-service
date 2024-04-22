@@ -21,7 +21,7 @@ public class UserActivateRequest extends UserUpdateRequest {
 
   @Override
   public UserRequest preRequest() {
-    setStatus(active != null && active ? ObjectStatus.ACTIVE.name() : ObjectStatus.INACTIVE.name());
+//    setStatus(active != null && active ? ObjectStatus.ACTIVE.name() : ObjectStatus.INACTIVE.name());
     return super.preRequest();
   }
 }
