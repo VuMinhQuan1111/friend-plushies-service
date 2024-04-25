@@ -206,7 +206,7 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
 //      if (user.getUserId() != null) {
 //        List<AclAction> aclAction = aclActionService
 //            .getAllAccessUIComponent(user.getUserId());
-//        response = UserMapper.INSTANCE.toResponse(user);
+        response = UserMapper.INSTANCE.toResponse(user);
 //        response.setAclActions(AclActionMapper.INSTANCE.toResponses(aclAction));
 //      }
     }
