@@ -59,5 +59,6 @@ public class User implements Serializable, FEntity {
   @Column(name = "created_date")
   private Timestamp createdDate;
 
-
+  @Column(name = "user_type")
+  private String userType;
 }

@@ -35,6 +35,8 @@ public class UserRequest {
 
   private String address;
 
+  private String userType;
+
   public UserRequest preRequest() {
     if (StringUtils.isNotBlank(this.getName())) {
       this.setName(this.getName().trim());

@@ -3,7 +3,11 @@ package com.friendsplushies.config.oauth2;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.friendsplushies.model.entity.User;
+import com.friendsplushies.repository.UserRepository;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

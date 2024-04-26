@@ -213,7 +213,7 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
     if (response == null) {
       response = new UserResponse();
       response.setType(UserType.ANONYMOUS.name());
-      response.setTitle(UserType.ANONYMOUS.getTitle());
+//      response.setTitle(UserType.ANONYMOUS.getTitle());
     }
     return response;
   }

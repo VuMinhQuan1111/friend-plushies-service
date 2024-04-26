@@ -35,7 +35,7 @@ public class SAuthenticationManager implements AuthenticationManager {
     // return authentication
     SUserDetails userDetails = new SUserDetails();
     userDetails.setUserId(user.getUserId());
-//    userDetails.setType(user.getType());
+    userDetails.setType(user.getUserType());
     userDetails.setUsername(user.getUsername());
     userDetails.setName(user.getName());
 

@@ -26,28 +26,13 @@ public class UserResponse {
   private String phone;
   private String email;
   private String address;
-  private String title;
-  private String facebookId;
-  private String googleId;
-  private Integer loginCount;
-  private String gender;
-  private String status;
+  private String userType;
   private String createdBy;
   private Long createdDate;
-  private String firstName;
-  private String lastName;
-  //  private String linkedin;
-//  private String facebook;
-//  private String twitter;
-//  private String youtube;
-//  private String whatsapp;
-  private String mobile;
-  private String position;
 //  private List<PermissionResponse> permissions;
 //
 //  private List<AclGroupResponse> aclGroups;
 //  private List<AclPermissionResponse> aclPermissions;
 //  private List<AclActionResponse> aclActions;
-//  private Long dailyGoal;
 
 }
