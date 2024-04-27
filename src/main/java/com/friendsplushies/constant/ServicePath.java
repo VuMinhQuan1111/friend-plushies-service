@@ -22,6 +22,9 @@ public class ServicePath {
   public static final String OBJECT = "/object";
   public static final String FIX = "/fix";
 
+  public static final String PRODUCT = "/product";
+  public static final String CATEGORY = "/category";
+  public static final String ORDER = "/order";
   public static final String PARTNER = "/partner";
   public static final String BOOKING = "/booking";
   public static final String CRUISE = "/cruise";
@@ -52,6 +55,10 @@ public class ServicePath {
   public static final String SEARCH_BOOKING = "/searchBooking";
   public static final String SEARCH_QUERY = "/searchQuery";
 
+
+  public static final String ORDER_ID = "/{orderId}";
+  public static final String PRODUCT_ID = "/{productId}";
+  public static final String CATEGORY_ID = "/{categoryId}";
   public static final String ID = "/{id}";
   public static final String KEYWORD = "/keyword";
   public static final String USER_ID = "/{userId}";
