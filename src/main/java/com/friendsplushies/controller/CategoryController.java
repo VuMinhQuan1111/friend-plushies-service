@@ -5,9 +5,11 @@ import com.friendsplushies.model.entity.Category;
 import com.friendsplushies.model.request.CategoryRequest;
 import com.friendsplushies.model.response.CategoryResponse;
 import com.friendsplushies.service.CategoryService;
+import com.friendsplushies.service.ProductService;
 import com.friendsplushies.util.cruds.controller.AbstractController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController extends AbstractController<CategoryRequest, CategoryResponse, Category>  {
 
     public static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
+
+    @Autowired
+    private CategoryService categoryService;
 
     public CategoryController() {
     }
