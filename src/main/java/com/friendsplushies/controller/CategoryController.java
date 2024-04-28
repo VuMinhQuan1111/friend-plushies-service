@@ -24,6 +24,7 @@ public class CategoryController extends AbstractController<CategoryRequest, Cate
 
     public CategoryController() {
     }
+    @Autowired
     public CategoryController(CategoryService categoryService) {
         super(categoryService);
     }

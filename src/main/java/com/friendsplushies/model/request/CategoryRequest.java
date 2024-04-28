@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 public class CategoryRequest {
   private Long categoryId;
-  private String categoryName;
-  private String categoryDescription;
+  private String name;
+  private String description;
 }
