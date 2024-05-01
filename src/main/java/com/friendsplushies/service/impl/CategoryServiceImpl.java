@@ -1,5 +1,6 @@
 package com.friendsplushies.service.impl;
 
+import java.util.*;
 import com.friendsplushies.model.entity.Category;
 import com.friendsplushies.model.mapper.CategoryMapper;
 import com.friendsplushies.model.request.CategoryRequest;
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryServiceImpl extends AbstractServiceImpl<CategoryRequest, CategoryResponse, Category> implements CategoryService {
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     public CategoryServiceImpl() {
     }
 
@@ -19,4 +24,5 @@ public class CategoryServiceImpl extends AbstractServiceImpl<CategoryRequest, Ca
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         super(categoryRepository, CategoryMapper.INSTANCE, Category.class);
     }
+
 }
