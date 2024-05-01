@@ -52,9 +52,6 @@ public class SAuthenticationManager implements AuthenticationManager {
   @Autowired
   private UserPermissionRepository userPermissionRepository;
 
-  private SecurityContextRepository securityContextRepository =
-          new HttpSessionSecurityContextRepository();
-
   @Override
   public Authentication authenticate(Authentication authentication) {
     SAuthentication sAuth = (SAuthentication) authentication;
@@ -72,7 +69,7 @@ public class SAuthenticationManager implements AuthenticationManager {
     userDetails.setName(user.getName());
 
     sAuth.setPrincipal(userDetails);
-    sAuth.getAuthorities().addAll(AuthorityUtils.createAuthorityList(fetchPermissions(user)));
+//    sAuth.getAuthorities().addAll(AuthorityUtils.createAuthorityList(fetchPermissions(user)));
     sAuth.setAuthenticated(true);
     sAuth.eraseCredentials();
     return authentication;

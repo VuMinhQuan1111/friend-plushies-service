@@ -99,6 +99,7 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
 //  private AclGroupRepository aclGroupRepository;
 
   @Override
+  @Transactional
   public UserResponse register(UserCreateRequest userCreateRequest) throws IllegalAccessException {
     User existEmail = userRepository.findByEmail(userCreateRequest.getEmail());
     if (existEmail != null) {
@@ -162,15 +163,15 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
     }
 
     //create permission
-    UserTypePermission userTypePermission = userTypePermissionRepository
-        .findFirstByUserType(userType.name());
-    if (userTypePermission == null) {
-      throw new BadRequestException("Cannot create permission");
-    }
-    UserPermission userPermission = new UserPermission();
-    userPermission.setUserId(user.getUserId());
-    userPermission.setPermissionName(userTypePermission.getPermission().getPermissionName());
-    userPermissionRepository.save(userPermission);
+//    UserTypePermission userTypePermission = userTypePermissionRepository
+//        .findFirstByUserType(userType.name());
+//    if (userTypePermission == null) {
+//      throw new BadRequestException("Cannot create permission");
+//    }
+//    UserPermission userPermission = new UserPermission();
+//    userPermission.setUserId(user.getUserId());
+//    userPermission.setPermissionName(userTypePermission.getPermission().getPermissionName());
+//    userPermissionRepository.save(userPermission);
     return UserMapper.INSTANCE.toResponse(user);
   }
 

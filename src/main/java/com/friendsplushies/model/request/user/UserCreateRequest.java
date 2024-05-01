@@ -26,9 +26,9 @@ public class UserCreateRequest extends UserRequest {
   @Override
   public UserRequest preRequest() {
 //    ObjectStatus status = ObjectStatus.status(this.getStatus());
-    UserType type = UserType.userType(this.getUserType());
+//    UserType type = UserType.userType(this.getUserType());
     this.setPassword(DigestUtils.md5DigestAsHex(this.password.getBytes()));
-    this.setUserType(type.name());
+//    this.setUserType(type.name());
 //    this.setStatus(status.name());
     return super.preRequest();
   }

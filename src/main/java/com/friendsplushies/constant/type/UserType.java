@@ -6,6 +6,7 @@ package com.friendsplushies.constant.type;
 public enum UserType {
   ANONYMOUS("Ẩn danh"),
   USER("Người dùng"),
+  ADMIN("Admin"),
   STARTER("Người dùng đang đăng ký"),
   PARTNER("Đối tác"),
   INTERMEDIARY("Trung gian bán hàng");
