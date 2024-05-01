@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class ProductRequest {
-  private Long productId;
+  private Long id;
   private String name;
   private Long categoryId;
   private Double size;

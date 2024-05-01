@@ -6,6 +6,8 @@ import com.friendsplushies.config.oauth2.SOAuth2Request;
 import com.friendsplushies.config.oauth2.SUserDetails;
 import com.friendsplushies.constant.type.UserType;
 import com.friendsplushies.model.entity.User;
+import com.friendsplushies.model.entity.UserPermission;
+import com.friendsplushies.model.entity.UserTypePermission;
 import com.friendsplushies.model.mapper.UserMapper;
 import com.friendsplushies.model.request.user.UserActivateRequest;
 import com.friendsplushies.model.request.user.UserCreateRequest;
@@ -17,7 +19,9 @@ import com.friendsplushies.model.response.UserResponse;
 //import com.crms.model.response.acl.AclActionResponse;
 //import com.crms.model.response.acl.AclGroupResponse;
 import com.friendsplushies.repository.AccessTokenRepository;
+import com.friendsplushies.repository.UserPermissionRepository;
 import com.friendsplushies.repository.UserRepository;
+import com.friendsplushies.repository.UserTypePermissionRepository;
 import com.friendsplushies.service.UserService;
 import com.friendsplushies.util.MappingUtil;
 import com.friendsplushies.util.cruds.service.impl.AbstractServiceImpl;
@@ -29,6 +33,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -69,11 +74,11 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
   @Autowired
   private UserRepository userRepository;
 
-//  @Autowired
-//  private UserPermissionRepository userPermissionRepository;
-//
-//  @Autowired
-//  private UserTypePermissionRepository userTypePermissionRepository;
+  @Autowired
+  private UserPermissionRepository userPermissionRepository;
+
+  @Autowired
+  private UserTypePermissionRepository userTypePermissionRepository;
 
   @Autowired
   private AccessTokenRepository accessTokenRepository;
@@ -121,14 +126,14 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
     }
     User user = UserMapper.INSTANCE.toEntity(userCreateRequest);
 //    user.setStatus(Status.ACTIVE.name());
-//    UserType userType = UserType.userType(userCreateRequest.getType());
-//    if (userType == UserType.ANONYMOUS || userType == null) {
-//      userType = UserType.USER;
-//    }
-//    user.setType(userType.name());
-//    if (StringUtils.isEmpty(user.getName())) {
-//      user.setName(user.getFirstName() + " " + user.getLastName());
-//    }
+    UserType userType = UserType.userType(userCreateRequest.getUserType());
+    if (userType == UserType.ANONYMOUS || userType == null) {
+      userType = UserType.USER;
+    }
+    user.setUserType(userType.name());
+    if (StringUtils.isEmpty(user.getName())) {
+      user.setName(user.getName());
+    }
 //    if (CollectionUtils.isNotEmpty(userCreateRequest.getAclPermissionIds())) {
 //      SearchRequest searchPermissions = new SearchRequest();
 //      searchPermissions.setConditionType(ConditionType.AND);
@@ -156,16 +161,16 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
       throw new BadRequestException("Cannot registered");
     }
 
-//    //create permission
-//    UserTypePermission userTypePermission = userTypePermissionRepository
-//        .findFirstByUserType(userType.name());
-//    if (userTypePermission == null) {
-//      throw new BadRequestException("Cannot create permission");
-//    }
-//    UserPermission userPermission = new UserPermission();
-//    userPermission.setUserId(user.getUserId());
-//    userPermission.setPermissionName(userTypePermission.getPermission().getPermissionName());
-//    userPermissionRepository.save(userPermission);
+    //create permission
+    UserTypePermission userTypePermission = userTypePermissionRepository
+        .findFirstByUserType(userType.name());
+    if (userTypePermission == null) {
+      throw new BadRequestException("Cannot create permission");
+    }
+    UserPermission userPermission = new UserPermission();
+    userPermission.setUserId(user.getUserId());
+    userPermission.setPermissionName(userTypePermission.getPermission().getPermissionName());
+    userPermissionRepository.save(userPermission);
     return UserMapper.INSTANCE.toResponse(user);
   }
 
@@ -213,7 +218,7 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
     if (response == null) {
       response = new UserResponse();
       response.setType(UserType.ANONYMOUS.name());
-//      response.setTitle(UserType.ANONYMOUS.getTitle());
+      response.setUserType(UserType.ANONYMOUS.getTitle());
     }
     return response;
   }

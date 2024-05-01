@@ -5,6 +5,6 @@ package com.friendsplushies.constant.type;
  */
 public enum PermissionName {
     ROLE_ANONYMOUS,
-    ALL_PERMISSION,
-    ROLE_USER_PERMISSION;
+    CLIENT_PERMISSION,
+    ADMIN_PERMISSION;
 }

@@ -32,8 +32,8 @@ public class Order implements FEntity, Serializable {
   @Id
   @SequenceGenerator(name = "orderGenerator", sequenceName = "order_order_id_seq", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "orderGenerator")
-  @Column(name = "order_id")
-  private Long orderId;
+  @Column(name = "id")
+  private Long id;
 
   @Column(name = "user_id")
   private Long userId;
@@ -65,9 +65,9 @@ public class Order implements FEntity, Serializable {
   @Column(name = "created_by")
   private String createdBy;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
   @JsonManagedReference
-  private List<Product> products;
+  private List<OrderProduct> orderProducts;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)

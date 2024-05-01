@@ -1,6 +1,7 @@
 package com.friendsplushies.model.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +13,6 @@ import javax.persistence.SequenceGenerator;
 
 import com.friendsplushies.model.entity.listener.FEntity;
 import com.friendsplushies.model.entity.listener.FEntityListener;
-
-import io.opencensus.common.Timestamp;
 
 import javax.persistence.Table;
 import lombok.Getter;

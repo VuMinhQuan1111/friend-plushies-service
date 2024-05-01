@@ -30,8 +30,8 @@ public class Product implements FEntity, Serializable {
   @Id
   @SequenceGenerator(name = "productGenerator", sequenceName = "product_product_id_seq", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "productGenerator")
-  @Column(name = "product_id")
-  private Long productId;
+  @Column(name = "id")
+  private Long id;
 
   @Column(name = "product_name")
   private String name;
