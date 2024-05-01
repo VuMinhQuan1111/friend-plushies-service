@@ -17,6 +17,8 @@ public class SOAuth2Request {
   private String username;
   private String email;
   private String password;
+  private String userType;
+  private Boolean isAdmin;
   private String token;
 
   public Map<String, String> toParamsMap() {
@@ -39,6 +41,12 @@ public class SOAuth2Request {
     if (token != null) {
       params.put("token", token);
     }
+    if (isAdmin != null) {
+      params.put("isAdmin", String.valueOf(isAdmin));
+    }
+    if (userType != null) {
+      params.put("userType", userType);
+    }
     return params;
   }
 
@@ -51,6 +59,8 @@ public class SOAuth2Request {
       request.setEmail(params.get("email"));
       request.setPassword(params.get("password"));
       request.setToken(params.get("token"));
+      request.setToken(params.get("userType"));
+      request.setToken(params.get("isAdmin"));
       return request;
     } else {
       return null;

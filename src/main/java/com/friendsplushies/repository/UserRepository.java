@@ -23,12 +23,6 @@ public interface UserRepository extends JpaRepository<User, Long>, IRepository<U
   @Query("FROM User where userId = :userId")
   User findByUserId(@Param("userId") Long userId);
 
-  @Query("FROM User where facebookId = :facebookId")
-  User findByFacebookId(@Param("facebookId") String facebookId);
-
-  @Query("FROM User where googleId = :googleId")
-  User findByGoogleId(@Param("googleId") String googleId);
-
 //  @Query("FROM User where code = :code and isDeleted = false ")
 //  User findFirstByCode(@Param("code") String code);
 

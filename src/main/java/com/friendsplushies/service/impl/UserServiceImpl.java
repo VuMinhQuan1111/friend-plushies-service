@@ -25,9 +25,12 @@ import com.friendsplushies.repository.UserTypePermissionRepository;
 import com.friendsplushies.service.UserService;
 import com.friendsplushies.util.MappingUtil;
 import com.friendsplushies.util.cruds.service.impl.AbstractServiceImpl;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import javax.transaction.Transactional;
+
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,38 +53,38 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  */
 @Service
 public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserResponse, User> implements
-    UserService {
+        UserService {
 
-  TokenStore tokenStore;
+    TokenStore tokenStore;
 
-  private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-  public UserServiceImpl() {
-  }
+    public UserServiceImpl() {
+    }
 
-  @Autowired
-  public UserServiceImpl(UserRepository userRepository, TokenStore tokenStore) {
-    super(userRepository, UserMapper.INSTANCE, User.class);
-    this.tokenStore = tokenStore;
-  }
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, TokenStore tokenStore) {
+        super(userRepository, UserMapper.INSTANCE, User.class);
+        this.tokenStore = tokenStore;
+    }
 
-  @Autowired
-  private TokenEndpoint tokenEndpoint;
+    @Autowired
+    private TokenEndpoint tokenEndpoint;
 
-  @Autowired
-  private ConsumerTokenServices tokenServices;
+    @Autowired
+    private ConsumerTokenServices tokenServices;
 
-  @Autowired
-  private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-  @Autowired
-  private UserPermissionRepository userPermissionRepository;
+    @Autowired
+    private UserPermissionRepository userPermissionRepository;
 
-  @Autowired
-  private UserTypePermissionRepository userTypePermissionRepository;
+    @Autowired
+    private UserTypePermissionRepository userTypePermissionRepository;
 
-  @Autowired
-  private AccessTokenRepository accessTokenRepository;
+    @Autowired
+    private AccessTokenRepository accessTokenRepository;
 
 //  @Autowired
 //  private AclGroupService aclGroupService;
@@ -98,43 +101,43 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
 //  @Autowired
 //  private AclGroupRepository aclGroupRepository;
 
-  @Override
-  @Transactional
-  public UserResponse register(UserCreateRequest userCreateRequest) throws IllegalAccessException {
-    User existEmail = userRepository.findByEmail(userCreateRequest.getEmail());
-    if (existEmail != null) {
-      if (StringUtils.isNotEmpty(userCreateRequest.getEmail()) && userCreateRequest.getEmail()
-          .equals(existEmail.getEmail())) {
-        throw new BadRequestException("Email already existed");
-      }
-    }
-    if (StringUtils.isNotEmpty(userCreateRequest.getUsername())) {
-      User existUsername = userRepository.findByUsername(userCreateRequest.getUsername());
-      String username = userCreateRequest.getUsername();
-      while (existUsername != null && username
-          .equals(existUsername.getUsername())) {
-        char last = username.charAt(username.length() - 1);
-        if (NumberUtils.isNumber(String.valueOf(last))) {
-          username = username.substring(0, username.length() - 1);
-          username = username + (Integer.valueOf(String.valueOf(last)) + 1);
-        } else {
-          username = username + 1;
+    @Override
+    @Transactional
+    public UserResponse register(UserCreateRequest userCreateRequest) throws IllegalAccessException {
+        User existEmail = userRepository.findByEmail(userCreateRequest.getEmail());
+        if (existEmail != null) {
+            if (StringUtils.isNotEmpty(userCreateRequest.getEmail()) && userCreateRequest.getEmail()
+                    .equals(existEmail.getEmail())) {
+                throw new BadRequestException("Email already existed");
+            }
         }
+        if (StringUtils.isNotEmpty(userCreateRequest.getUsername())) {
+            User existUsername = userRepository.findByUsername(userCreateRequest.getUsername());
+            String username = userCreateRequest.getUsername();
+            while (existUsername != null && username
+                    .equals(existUsername.getUsername())) {
+                char last = username.charAt(username.length() - 1);
+                if (NumberUtils.isNumber(String.valueOf(last))) {
+                    username = username.substring(0, username.length() - 1);
+                    username = username + (Integer.valueOf(String.valueOf(last)) + 1);
+                } else {
+                    username = username + 1;
+                }
 
-        existUsername = userRepository.findByUsername(username);
-      }
-      userCreateRequest.setUsername(username);
-    }
-    User user = UserMapper.INSTANCE.toEntity(userCreateRequest);
+                existUsername = userRepository.findByUsername(username);
+            }
+            userCreateRequest.setUsername(username);
+        }
+        User user = UserMapper.INSTANCE.toEntity(userCreateRequest);
 //    user.setStatus(Status.ACTIVE.name());
-    UserType userType = UserType.userType(userCreateRequest.getUserType());
-    if (userType == UserType.ANONYMOUS || userType == null) {
-      userType = UserType.USER;
-    }
-    user.setUserType(userType.name());
-    if (StringUtils.isEmpty(user.getName())) {
-      user.setName(user.getName());
-    }
+        UserType userType = UserType.userType(userCreateRequest.getUserType());
+        if (userType == UserType.ANONYMOUS || userType == null) {
+            userType = UserType.USER;
+        }
+        user.setUserType(userType.name());
+        if (StringUtils.isEmpty(user.getName())) {
+            user.setName(user.getName());
+        }
 //    if (CollectionUtils.isNotEmpty(userCreateRequest.getAclPermissionIds())) {
 //      SearchRequest searchPermissions = new SearchRequest();
 //      searchPermissions.setConditionType(ConditionType.AND);
@@ -157,12 +160,12 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
 //        user.setAclGroups(groups);
 //      }
 //    }
-    user = userRepository.save(user);
-    if (user == null) {
-      throw new BadRequestException("Cannot registered");
-    }
+        user = userRepository.save(user);
+        if (user == null) {
+            throw new BadRequestException("Cannot registered");
+        }
 
-    //create permission
+        //create permission
 //    UserTypePermission userTypePermission = userTypePermissionRepository
 //        .findFirstByUserType(userType.name());
 //    if (userTypePermission == null) {
@@ -172,111 +175,116 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
 //    userPermission.setUserId(user.getUserId());
 //    userPermission.setPermissionName(userTypePermission.getPermission().getPermissionName());
 //    userPermissionRepository.save(userPermission);
-    return UserMapper.INSTANCE.toResponse(user);
-  }
-
-  @Override
-  public OAuth2AccessToken login(SOAuth2Request request)
-      throws HttpRequestMethodNotSupportedException {
-    return tokenEndpoint.postAccessToken(new SAuthentication(request, null), request.toParamsMap())
-        .getBody();
-  }
-
-  @Override
-  public void logout() {
-    OAuth2AuthenticationDetails authDetails = (OAuth2AuthenticationDetails) SecurityContextHolder
-        .getContext().getAuthentication().getDetails();
-    tokenServices.revokeToken(authDetails.getTokenValue());
-  }
-
-  @Override
-  public SUserDetails details() {
-    SUserDetails details = null;
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication instanceof OAuth2Authentication) {
-      details = (SUserDetails) authentication.getPrincipal();
+        return UserMapper.INSTANCE.toResponse(user);
     }
-    if (details == null) {
-      details = new SUserDetails();
-      details.setType(UserType.ANONYMOUS.name());
-    }
-    return details;
-  }
 
-  @Override
-  public UserResponse me() {
-    UserResponse response = null;
-    SUserDetails details = this.details();
-    if (!UserType.ANONYMOUS.name().equals(details.getType())) {
-      User user = userRepository.getOne(details.getUserId());
+    @Override
+    public OAuth2AccessToken login(SOAuth2Request request)
+            throws HttpRequestMethodNotSupportedException {
+        User user = userRepository.findByUsername(request.getUsername());
+        if ((user.getUserType().equals("ADMIN") && BooleanUtils.isTrue(request.getIsAdmin())) || (user.getUserType().equals("USER") && BooleanUtils.isFalse(request.getIsAdmin()))) {
+            return tokenEndpoint.postAccessToken(new SAuthentication(request, null), request.toParamsMap())
+                    .getBody();
+        } else {
+            throw new BadRequestException("Username or password is incorrect");
+        }
+    }
+
+    @Override
+    public void logout() {
+        OAuth2AuthenticationDetails authDetails = (OAuth2AuthenticationDetails) SecurityContextHolder
+                .getContext().getAuthentication().getDetails();
+        tokenServices.revokeToken(authDetails.getTokenValue());
+    }
+
+    @Override
+    public SUserDetails details() {
+        SUserDetails details = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof OAuth2Authentication) {
+            details = (SUserDetails) authentication.getPrincipal();
+        }
+        if (details == null) {
+            details = new SUserDetails();
+            details.setType(UserType.ANONYMOUS.name());
+        }
+        return details;
+    }
+
+    @Override
+    public UserResponse me() {
+        UserResponse response = null;
+        SUserDetails details = this.details();
+        if (!UserType.ANONYMOUS.name().equals(details.getType())) {
+            User user = userRepository.getOne(details.getUserId());
 //      if (user.getUserId() != null) {
 //        List<AclAction> aclAction = aclActionService
 //            .getAllAccessUIComponent(user.getUserId());
-        response = UserMapper.INSTANCE.toResponse(user);
+            response = UserMapper.INSTANCE.toResponse(user);
 //        response.setAclActions(AclActionMapper.INSTANCE.toResponses(aclAction));
 //      }
-    }
-    if (response == null) {
-      response = new UserResponse();
-      response.setType(UserType.ANONYMOUS.name());
-      response.setUserType(UserType.ANONYMOUS.getTitle());
-    }
-    return response;
-  }
-
-  @Transactional
-  public UserResponse updateUser(UserUpdateRequest userUpdateRequest) throws IllegalAccessException {
-    User user = this.getUser(userUpdateRequest.getUserId());
-    User request = UserMapper.INSTANCE.toEntity(userUpdateRequest);
-    if (StringUtils.isNotBlank(userUpdateRequest.getEmail())
-        && !userUpdateRequest.getEmail().equals(user.getEmail())) {
-      User userByEmail = userRepository.findByEmail(userUpdateRequest.getEmail());
-      if (userByEmail != null) {
-        throw new IllegalArgumentException("Email already existed");
-      }
+        }
+        if (response == null) {
+            response = new UserResponse();
+            response.setType(UserType.ANONYMOUS.name());
+            response.setUserType(UserType.ANONYMOUS.getTitle());
+        }
+        return response;
     }
 
-    if (StringUtils.isNotBlank(userUpdateRequest.getUsername())
-        && !userUpdateRequest.getUsername().equals(user.getUsername())) {
-      User userByUsername = userRepository.findByUsername(userUpdateRequest.getUsername());
-      if (userByUsername != null) {
-        throw new IllegalArgumentException("Username already existed");
-      }
+    @Transactional
+    public UserResponse updateUser(UserUpdateRequest userUpdateRequest) throws IllegalAccessException {
+        User user = this.getUser(userUpdateRequest.getUserId());
+        User request = UserMapper.INSTANCE.toEntity(userUpdateRequest);
+        if (StringUtils.isNotBlank(userUpdateRequest.getEmail())
+                && !userUpdateRequest.getEmail().equals(user.getEmail())) {
+            User userByEmail = userRepository.findByEmail(userUpdateRequest.getEmail());
+            if (userByEmail != null) {
+                throw new IllegalArgumentException("Email already existed");
+            }
+        }
+
+        if (StringUtils.isNotBlank(userUpdateRequest.getUsername())
+                && !userUpdateRequest.getUsername().equals(user.getUsername())) {
+            User userByUsername = userRepository.findByUsername(userUpdateRequest.getUsername());
+            if (userByUsername != null) {
+                throw new IllegalArgumentException("Username already existed");
+            }
+        }
+
+        MappingUtil.setParameter(User.class, request, user);
+
+        userRepository.save(user);
+        UserResponse userResponse = UserMapper.INSTANCE.toResponse(user);
+        return userResponse;
     }
 
-    MappingUtil.setParameter(User.class, request, user);
-
-    userRepository.save(user);
-    UserResponse userResponse = UserMapper.INSTANCE.toResponse(user);
-    return userResponse;
-  }
-
-  @Override
-  public UserResponse setPassword(UserUpdatePasswordRequest request) {
-    User user = userRepository.findByEmail(request.getEmail());
-    if (user == null || user.getUserId() == null) {
-      throw new BadRequestException("Account not existed");
-    }
+    @Override
+    public UserResponse setPassword(UserUpdatePasswordRequest request) {
+        User user = userRepository.findByEmail(request.getEmail());
+        if (user == null || user.getUserId() == null) {
+            throw new BadRequestException("Account not existed");
+        }
 //    } else if (!user.getStatus().equalsIgnoreCase("ACTIVE")) {
 //      throw new BadRequestException("Account have been deleted");
 //    }
-    if (StringUtils.isNotBlank(user.getPassword())) {
-      if (StringUtils.isNotBlank(request.getOldPassword())) {
-        validateByOldPassword(user, request);
-      } else if (StringUtils.isNotBlank(request.getOtp()) && StringUtils
-          .isNotBlank(request.getToken())) {
-        validateByOtp(user, request);
-      } else {
-        throw new BadRequestException("Not supported yet");
-      }
+        if (StringUtils.isNotBlank(user.getPassword())) {
+            if (StringUtils.isNotBlank(request.getOldPassword())) {
+                validateByOldPassword(user, request);
+            } else if (StringUtils.isNotBlank(request.getOtp()) && StringUtils
+                    .isNotBlank(request.getToken())) {
+                validateByOtp(user, request);
+            } else {
+                throw new BadRequestException("Not supported yet");
+            }
+        }
+        user.setPassword(request.getPassword());
+        UserResponse userResponse = UserMapper.INSTANCE.toResponse(userRepository.save(user));
+        return userResponse;
     }
-    user.setPassword(request.getPassword());
-    UserResponse userResponse = UserMapper.INSTANCE.toResponse(userRepository.save(user));
-    return userResponse;
-  }
 
-  @Override
-  public void resetPassword(UserResetPasswordRequest request) {
+    @Override
+    public void resetPassword(UserResetPasswordRequest request) {
 //    ResetPasswordMethod resetMethod = ResetPasswordMethod.method(request.getMethod());
 //    if (resetMethod == null) {
 //      throw new BadRequestException("Not supported yet");
@@ -303,18 +311,18 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
 //      default:
 //        throw new BadRequestException("Not supported yet");
 //    }
-  }
-
-  @Override
-  public UserResponse activate(UserActivateRequest request)
-      throws IllegalAccessException, InvocationTargetException {
-    UserResponse user = super.update(request);
-    if (request.getActive() == null || !request.getActive()) {
-      accessTokenRepository
-          .removeAccessToken(Collections.singletonList(user.getType() + "_" + user.getUserId()));
     }
-    return user;
-  }
+
+    @Override
+    public UserResponse activate(UserActivateRequest request)
+            throws IllegalAccessException, InvocationTargetException {
+        UserResponse user = super.update(request);
+        if (request.getActive() == null || !request.getActive()) {
+            accessTokenRepository
+                    .removeAccessToken(Collections.singletonList(user.getType() + "_" + user.getUserId()));
+        }
+        return user;
+    }
 
 //  @Override
 //  public Boolean putAclGroup(Long userId, Long groupId, Boolean checked) {
@@ -350,11 +358,11 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
 //    return aclGroupService.getAclGroupsByUserId(userId);
 //  }
 
-  @Override
-  public Boolean checkAccessUIComponent(String component) {
+    @Override
+    public Boolean checkAccessUIComponent(String component) {
 //    return aclActionService.checkAccessUIComponent(details().getUserId(), component);
-    return true;
-  }
+        return true;
+    }
 
 //  @Override
 //  public List<AclActionResponse> getAllAccessUIComponent() {
@@ -362,59 +370,59 @@ public class UserServiceImpl extends AbstractServiceImpl<UserRequest, UserRespon
 //    return AclActionMapper.INSTANCE.toResponses(aclActions);
 //  }
 
-  private void validateByOtp(User user, UserUpdatePasswordRequest request) {
-    if (!request.getOtp().equals("222222") || !request.getToken().equals("999999")) {
-      throw new BadRequestException("Wrong Token");
-    }
-  }
-
-  private void validateByOldPassword(User user, UserUpdatePasswordRequest request) {
-    if (user.getUserId().equals(details().getUserId())) {
-      if (!user.getPassword().equals(request.getOldPassword())) {
-        throw new BadRequestException("Incorrect old password");
-      }
-    } else {
-      throw new OAuth2Exception("Cannot change password when not logged in");
-    }
-  }
-
-  private User getUser(Long userId) {
-    return userRepository.findById(userId).orElseThrow(
-        () -> new IllegalArgumentException("User does not exist: " + userId)
-    );
-  }
-
-  @Override
-  @Transactional
-  public UserResponse update(UserRequest userRequest)
-      throws IllegalAccessException, InvocationTargetException {
-    if (StringUtils.isNotEmpty(userRequest.getPassword())) {
-      userRequest.setPassword(DigestUtils.md5DigestAsHex(userRequest.getPassword().getBytes()));
+    private void validateByOtp(User user, UserUpdatePasswordRequest request) {
+        if (!request.getOtp().equals("222222") || !request.getToken().equals("999999")) {
+            throw new BadRequestException("Wrong Token");
+        }
     }
 
-    userRequest.preRequest();
-
-    User user = this.getUser(userRequest.getUserId());
-    User request = UserMapper.INSTANCE.toEntity(userRequest);
-    if (StringUtils.isNotBlank(userRequest.getEmail())
-        && !userRequest.getEmail().equals(user.getEmail())) {
-      User userByEmail = userRepository.findByEmail(userRequest.getEmail());
-      if (userByEmail != null) {
-        throw new IllegalArgumentException("Email already existed");
-      }
+    private void validateByOldPassword(User user, UserUpdatePasswordRequest request) {
+        if (user.getUserId().equals(details().getUserId())) {
+            if (!user.getPassword().equals(request.getOldPassword())) {
+                throw new BadRequestException("Incorrect old password");
+            }
+        } else {
+            throw new OAuth2Exception("Cannot change password when not logged in");
+        }
     }
 
-    if (StringUtils.isNotBlank(userRequest.getUsername())
-        && !userRequest.getUsername().equals(user.getUsername())) {
-      User userByUsername = userRepository.findByUsername(userRequest.getUsername());
-      if (userByUsername != null) {
-        throw new IllegalArgumentException("Username already existed");
-      }
+    private User getUser(Long userId) {
+        return userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("User does not exist: " + userId)
+        );
     }
 
-    MappingUtil.setParameter(User.class, request, user);
-    userRepository.save(user);
-    UserResponse userResponse = UserMapper.INSTANCE.toResponse(user);
-    return userResponse;
-  }
+    @Override
+    @Transactional
+    public UserResponse update(UserRequest userRequest)
+            throws IllegalAccessException, InvocationTargetException {
+        if (StringUtils.isNotEmpty(userRequest.getPassword())) {
+            userRequest.setPassword(DigestUtils.md5DigestAsHex(userRequest.getPassword().getBytes()));
+        }
+
+        userRequest.preRequest();
+
+        User user = this.getUser(userRequest.getUserId());
+        User request = UserMapper.INSTANCE.toEntity(userRequest);
+        if (StringUtils.isNotBlank(userRequest.getEmail())
+                && !userRequest.getEmail().equals(user.getEmail())) {
+            User userByEmail = userRepository.findByEmail(userRequest.getEmail());
+            if (userByEmail != null) {
+                throw new IllegalArgumentException("Email already existed");
+            }
+        }
+
+        if (StringUtils.isNotBlank(userRequest.getUsername())
+                && !userRequest.getUsername().equals(user.getUsername())) {
+            User userByUsername = userRepository.findByUsername(userRequest.getUsername());
+            if (userByUsername != null) {
+                throw new IllegalArgumentException("Username already existed");
+            }
+        }
+
+        MappingUtil.setParameter(User.class, request, user);
+        userRepository.save(user);
+        UserResponse userResponse = UserMapper.INSTANCE.toResponse(user);
+        return userResponse;
+    }
 }
