@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * Author: chautn on 4/9/2019 3:12 PM
  */
@@ -29,7 +31,7 @@ public class UserResponse {
   private String userType;
   private String createdBy;
   private Long createdDate;
-//  private List<PermissionResponse> permissions;
+  private List<PermissionResponse> permissions;
 //
 //  private List<AclGroupResponse> aclGroups;
 //  private List<AclPermissionResponse> aclPermissions;
