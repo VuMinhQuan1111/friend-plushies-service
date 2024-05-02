@@ -1,41 +1,45 @@
 package com.friendsplushies.model.entity;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.friendsplushies.model.entity.listener.FEntity;
-import com.friendsplushies.model.entity.listener.FEntityListener;
-
-import io.opencensus.common.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
-import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "cart")
-@EntityListeners(FEntityListener.class)
-public class Cart implements Serializable {
-
+public class Cart implements Serializable, FEntity {
     @Id
     @SequenceGenerator(name = "cartGenerator", sequenceName = "cart_cart_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "cartGenerator")
     @Column(name = "cart_id")
-    private Long id;
-    private String name;
-    private BigDecimal price;
-    private Long quantity;
-    // private Timestamp createdDate;
-    // private String createdBy;
+    private Long cartId;
 
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "product_id")
+    private Long productId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JsonBackReference
     private Product product;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    private User user;
+
+    @Column(name = "created_date")
+    private Timestamp createdDate;
+
+    @Column(name = "created_by")
+    private String createdBy;
 }

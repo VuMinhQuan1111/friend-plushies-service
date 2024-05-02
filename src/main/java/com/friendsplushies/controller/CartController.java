@@ -1,25 +1,21 @@
 package com.friendsplushies.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import com.friendsplushies.constant.ServicePath;
 import com.friendsplushies.model.entity.Cart;
-import com.friendsplushies.model.entity.Category;
 import com.friendsplushies.model.request.CartRequest;
-import com.friendsplushies.model.request.CategoryRequest;
 import com.friendsplushies.model.response.CartResponse;
-import com.friendsplushies.model.response.CategoryResponse;
+import com.friendsplushies.model.response.RestResult;
 import com.friendsplushies.service.CartService;
-import com.friendsplushies.service.CategoryService;
 import com.friendsplushies.util.cruds.controller.AbstractController;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(ServicePath.CART)
@@ -34,5 +30,15 @@ public class CartController extends AbstractController<CartRequest, CartResponse
     @Autowired
     public CartController(CartService cartService) {
         super(cartService);
+    }
+
+    @PostMapping("/deleteAllByProductId")
+    public ResponseEntity deleteAllByProductId(@RequestBody Long productId) {
+        cartService.deleteAllByProductId(productId);
+        return new ResponseEntity(
+                new RestResult<CartResponse>()
+                        .status(RestResult.STATUS_SUCCESS)
+                        .data(null),
+                HttpStatus.OK);
     }
 }

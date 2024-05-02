@@ -1,17 +1,12 @@
 package com.friendsplushies.model.request;
 
-import java.math.BigDecimal;
-import lombok.Data;
-import com.friendsplushies.model.entity.Product;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class CartRequest {
-    private Long id;
-    private String name;
-    private BigDecimal price;
-    private Long quantity;
-    // private Timestamp createdDate;
-    // private String createdBy;
-
-    private Product product;
+    private Long cartId;
+    private Long userId;
+    private Long productId;
 }

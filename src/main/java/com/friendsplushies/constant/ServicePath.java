@@ -7,6 +7,7 @@ public class ServicePath {
 
   public static final String ALL = "/all";
   public static final String USER = "/user";
+  public static final String CART = "/cart";
   public static final String FILE = "/file";
   public static final String REGISTER = "/register";
   public static final String LOGIN = "/login";
