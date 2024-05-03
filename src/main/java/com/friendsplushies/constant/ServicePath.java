@@ -24,6 +24,7 @@ public class ServicePath {
   public static final String FIX = "/fix";
 
   public static final String URLS = "/urls";
+  //public static final String CART = "/cart";
   public static final String PRODUCT = "/product";
   public static final String CATEGORY = "/category";
   public static final String ORDER = "/order";
