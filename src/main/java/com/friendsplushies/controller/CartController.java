@@ -41,4 +41,14 @@ public class CartController extends AbstractController<CartRequest, CartResponse
                         .data(null),
                 HttpStatus.OK);
     }
+
+    @PostMapping("/deleteAllByUserId")
+    public ResponseEntity deleteAllByUserId(@RequestBody Long userId) {
+        cartService.deleteAllByUserId(userId);
+        return new ResponseEntity(
+                new RestResult<CartResponse>()
+                        .status(RestResult.STATUS_SUCCESS)
+                        .data(null),
+                HttpStatus.OK);
+    }
 }

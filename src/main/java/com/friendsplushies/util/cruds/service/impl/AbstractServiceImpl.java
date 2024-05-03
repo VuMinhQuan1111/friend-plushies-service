@@ -90,7 +90,7 @@ public abstract class AbstractServiceImpl<T, R, E> {
   public R update(T request) throws IllegalAccessException, InvocationTargetException {
     Method getId;
     try {
-      getId = request.getClass().getMethod("get" + entityClass.getSimpleName() + "Id");
+      getId = request.getClass().getMethod("get" + StringUtils.capitalize(entityClass.getSimpleName()) + "Id");
     } catch (NoSuchMethodException e) {
       logger.warn("Class " + entityClass.getSimpleName() + " dont have get*Class*Id() method");
       throw new IllegalArgumentException("Class " + entityClass.getSimpleName() + " dont have get*Class*Id() method");

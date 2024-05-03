@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CartRequest {
+public class OrderCartRequest {
+    private Long orderCartId;
     private Long cartId;
-    private Long userId;
-    private Long productId;
-    private String status;
+    private Long orderId;
 }

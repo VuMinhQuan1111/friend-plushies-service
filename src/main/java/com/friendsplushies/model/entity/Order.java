@@ -30,22 +30,10 @@ import lombok.Setter;
 @EntityListeners(FEntityListener.class)
 public class Order implements FEntity, Serializable {
   @Id
-  @SequenceGenerator(name = "orderGenerator", sequenceName = "order_order_id_seq", allocationSize = 1)
+  @SequenceGenerator(name = "orderGenerator", sequenceName = "order_id_seq", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "orderGenerator")
   @Column(name = "id")
   private Long id;
-
-  @Column(name = "user_id")
-  private Long userId;
-
-  @Column(name = "order_name")
-  private String name;
-
-  @Column(name = "price")
-  private BigDecimal price;
-
-  @Column(name = "discount")
-  private BigDecimal discount;
 
   @Column(name = "user_address")
   private String userAddress;
@@ -56,8 +44,8 @@ public class Order implements FEntity, Serializable {
   @Column(name = "user_phone")
   private String userPhone;
 
-  @Column(name = "ship_fee")
-  private BigDecimal shipFee;
+  @Column(name = "status")
+  private String status;
 
   @Column(name = "created_date")
   private Timestamp createdDate;
@@ -67,10 +55,5 @@ public class Order implements FEntity, Serializable {
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
   @JsonManagedReference
-  private List<OrderProduct> orderProducts;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
-  @JsonManagedReference
-  private User user;
+  private List<OrderCart> orderCarts;
 }

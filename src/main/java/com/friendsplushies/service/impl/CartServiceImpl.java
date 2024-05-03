@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl extends AbstractServiceImpl<CartRequest, CartResponse, Cart> implements CartService {
@@ -29,5 +31,15 @@ public class CartServiceImpl extends AbstractServiceImpl<CartRequest, CartRespon
     @Transactional
     public void deleteAllByProductId(Long productId) {
         cartRepository.deleteAllByProductId(productId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteAllByUserId(Long userId) {
+        List<Cart> carts = cartRepository.findAllByUserId(userId);
+        carts.forEach(cart -> {
+            cart.setStatus("INACTIVE");
+        });
+        cartRepository.saveAll(carts);
     }
 }

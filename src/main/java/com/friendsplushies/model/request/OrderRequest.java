@@ -6,23 +6,22 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author TuAD ON 3/21/2024
  */
 
-@Data
+@Getter
+@Setter
 public class OrderRequest {
   private Long id;
-  private Long userId;
-  private String name;
-  private BigDecimal price;
-  private BigDecimal discount;
   private String userAddress;
   private String userName;
   private String userPhone;
-  private BigDecimal shipFee;
+  private String status;
   private Timestamp createdDate;
   private String createdBy;
-  private List<Long> productIds;
+  private List<Long> cartIds;
 }

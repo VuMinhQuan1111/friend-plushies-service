@@ -47,5 +47,4 @@ public class Category implements FEntity, Serializable {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
   @JsonManagedReference
   private List<Product> products;
-
 }

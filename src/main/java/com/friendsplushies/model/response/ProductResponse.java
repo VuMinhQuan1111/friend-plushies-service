@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ProductResponse {
-    private Long id;
+    private Long productId;
     private String name;
     private Long categoryId;
     private Double size;

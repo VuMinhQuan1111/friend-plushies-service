@@ -1,22 +1,16 @@
 package com.friendsplushies.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.friendsplushies.model.entity.listener.FEntity;
 import com.friendsplushies.model.entity.listener.FEntityListener;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.codehaus.jackson.annotate.JsonBackReference;
@@ -31,7 +25,7 @@ public class Product implements FEntity, Serializable {
   @SequenceGenerator(name = "productGenerator", sequenceName = "product_product_id_seq", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "productGenerator")
   @Column(name = "id")
-  private Long id;
+  private Long productId;
 
   @Column(name = "product_name")
   private String name;
@@ -61,5 +55,4 @@ public class Product implements FEntity, Serializable {
   @JoinColumn(name = "category_id", referencedColumnName = "category_id", updatable = false, insertable = false)
   @JsonBackReference
   private Category category;
-
 }

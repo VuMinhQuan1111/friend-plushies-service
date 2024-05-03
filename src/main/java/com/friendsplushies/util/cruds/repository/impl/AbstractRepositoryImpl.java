@@ -168,8 +168,8 @@ public abstract class AbstractRepositoryImpl<E> {
       joins.forEach(condition -> {
         Join prefix = Join.type(condition.getLeft());
         String property = prefix.value() + TableAlias.OBJECT.alias() + "." + condition.getRight() + " " + condition.getRight();
-        // validate operator from Order and throw exception
         sql.append(property);
+      // validate operator from Order and throw exception
       });
     }
     return sql.toString();

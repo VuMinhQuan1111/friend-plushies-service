@@ -7,4 +7,5 @@ import com.friendsplushies.util.cruds.service.IService;
 
 public interface CartService extends IService<CartRequest, CartResponse, Cart> {
     void deleteAllByProductId(Long productId);
+    void deleteAllByUserId(Long userId);
 }

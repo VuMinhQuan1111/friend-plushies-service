@@ -16,4 +16,5 @@ public class CartResponse {
     private UserResponse user;
     private Timestamp createdDate;
     private String createdBy;
+    private String status;
 }
