@@ -1,71 +1,73 @@
-// package com.friendsplushies.service.impl;
+package com.friendsplushies.service.impl;
 
-// import com.amazonaws.HttpMethod;
-// import java.util.ArrayList;
+import com.amazonaws.HttpMethod;
+import java.util.ArrayList;
 // import java.util.ResourceBundle;
-// import java.util.List;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.web.multipart.MultipartFile;
-// import org.apache.commons.collections4.CollectionUtils;
-// // import com.tech.backend.storage.connector.StorageConnector;
-// import com.amazonaws.services.appstream.model.StorageConnector;
-// import com.friendsplushies.model.response.FileUrlDTO;
-// import com.friendsplushies.service.FileService;
-// import org.springframework.stereotype.Service;
-// import java.io.File;
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.collections4.CollectionUtils;
 
+import com.friendsplushies.connector.StorageConnector;
+import com.friendsplushies.model.response.FileUrlDTO;
+import com.friendsplushies.service.FileService;
+import com.friendsplushies.util.ResourceBundle;
 
-// public class FileServiceImpl implements FileService {
-//     public static final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
+import org.springframework.stereotype.Service;
+import java.io.File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-//   @Autowired
-//   ResourceBundle resourceBundle;
+@Service
+public class FileServiceImpl implements FileService {
+    public static final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
-//   @Autowired
-//   com.friendsplushies.connector.StorageConnector storageConnector;
+  @Autowired
+  ResourceBundle resourceBundle;
 
-//   @Override
-//   public String createFile(MultipartFile file, String folderPath) throws Exception {
-//     return storageConnector.createFile(file.getInputStream(), folderPath, file.getOriginalFilename(), file.getSize(), false).getFilePath();
-//   }
+  @Autowired
+  StorageConnector storageConnector;
 
-//   @Override
-//   public String getFile(String fileName, String folderPath) {
-//     return storageConnector.getFileUrl(folderPath + File.separator + fileName);
-//   }
+  @Override
+  public String createFile(MultipartFile file, String folderPath) throws Exception {
+    return storageConnector.createFile(file.getInputStream(), folderPath, file.getOriginalFilename(), file.getSize(), false).getFilePath();
+  }
 
-//   @Override
-//   public List<FileUrlDTO> getFileUrls(List<String> filePaths) {
-//     if (CollectionUtils.isEmpty(filePaths)) {
-//       return null;
-//     }
-//     List<FileUrlDTO> result = new ArrayList<>();
-//     for (String filePath : filePaths) {
-//       FileUrlDTO fileUrlDTO = new FileUrlDTO(filePath, storageConnector.getFileUrl(filePath));
-//       result.add(fileUrlDTO);
-//     }
-//     return result;
-//   }
+  @Override
+  public String getFile(String fileName, String folderPath) {
+    return storageConnector.getFileUrl(folderPath + File.separator + fileName);
+  }
 
-//   @Override
-//   public void removeFiles(List<String> filePaths) throws Exception {
-//     if (CollectionUtils.isEmpty(filePaths)) {
-//       return;
-//     }
-//     for (String filePath :  filePaths) {
-//       storageConnector.removeFile(filePath);
-//     }
-//   }
+  @Override
+  public List<FileUrlDTO> getFileUrls(List<String> filePaths) {
+    if (CollectionUtils.isEmpty(filePaths)) {
+      return null;
+    }
+    List<FileUrlDTO> result = new ArrayList<>();
+    for (String filePath : filePaths) {
+      FileUrlDTO fileUrlDTO = new FileUrlDTO(filePath, storageConnector.getFileUrl(filePath));
+      result.add(fileUrlDTO);
+    }
+    return result;
+  }
 
-//   @Override
-//   public String fetchFileFromUrl(String fetchedUrl, String filePath) {
-//     return storageConnector.fetchFileFromUrl(fetchedUrl, filePath);
-//   }
+  @Override
+  public void removeFiles(List<String> filePaths) throws Exception {
+    if (CollectionUtils.isEmpty(filePaths)) {
+      return;
+    }
+    for (String filePath :  filePaths) {
+      storageConnector.removeFile(filePath);
+    }
+  }
 
-//   @Override
-//   public String getPresignedUrl(String key, HttpMethod method) {
-//     return storageConnector.getPresignedUrl(key, method);
-//   }
-// }
+  @Override
+  public String fetchFileFromUrl(String fetchedUrl, String filePath) {
+    return storageConnector.fetchFileFromUrl(fetchedUrl, filePath);
+  }
+
+  @Override
+  public String getPresignedUrl(String key, HttpMethod method) {
+    return storageConnector.getPresignedUrl(key, method);
+  }
+}

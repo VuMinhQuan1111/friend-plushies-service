@@ -11,17 +11,17 @@ public class ApplicationConstant {
   String name;
 
   // Do not change value of these field
-  // public static String ROOT_STORAGE_PATH;
-  // public static String DOMAIN_PATH;
-  // // public static String ACTIVE = "ACTIVE";
+  public static String ROOT_STORAGE_PATH;
+  public static String DOMAIN_PATH;
+  // public static String ACTIVE = "ACTIVE";
 
-  // @Value("${storage.rootPath}")
-  // public void setRootStoragePath(String rootStoragePath) {
-  //   ROOT_STORAGE_PATH = rootStoragePath;
-  // }
+  @Value("C:\\Users\\ABC\\Desktop\\banner")
+  public void setRootStoragePath(String rootStoragePath) {
+    ROOT_STORAGE_PATH = rootStoragePath;
+  }
 
-  // @Value("${storage.domainPath}")
-  // public void setDomainPath(String domainPath) {
-  //   DOMAIN_PATH = domainPath;
-  // }
+  @Value("C:\\Users\\ABC\\Desktop\\domain")
+  public void setDomainPath(String domainPath) {
+    DOMAIN_PATH = domainPath;
+  }
 }

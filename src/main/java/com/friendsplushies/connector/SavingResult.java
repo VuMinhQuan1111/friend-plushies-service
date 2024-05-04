@@ -1,31 +1,31 @@
-// package com.friendsplushies.connector;
+package com.friendsplushies.connector;
 
 
-// import lombok.AllArgsConstructor;
-// import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 
-// @Data
-// @AllArgsConstructor
-// public class SavingResult {
+@Data
+@AllArgsConstructor
+public class SavingResult {
 
 
-//     public enum SavingType {
-//         LOCAL("local"),
-//         AWS("aws");
+    public enum SavingType {
+        LOCAL("local"),
+        AWS("aws");
 
-//         String value;
+        String value;
 
-//         SavingType(String value) {
-//             this.value = value;
-//         }
+        SavingType(String value) {
+            this.value = value;
+        }
 
-//         public String value() {
-//             return value;
-//         }
-//     }
+        public String value() {
+            return value;
+        }
+    }
 
-//     private SavingType type;
-//     private String fileLocation;
-//     private String filePath;
-// }
+    private SavingType type;
+    private String fileLocation;
+    private String filePath;
+}

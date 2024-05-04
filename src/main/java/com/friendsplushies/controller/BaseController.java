@@ -1,7 +1,7 @@
 package com.friendsplushies.controller;
 
 import com.friendsplushies.common.BadRequestException;
-// import com.friendsplushies.util.ResourceBundle;
+import com.friendsplushies.util.ResourceBundle;
 import com.friendsplushies.util.RestResult;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,8 +27,8 @@ public class BaseController implements ErrorController {
 
   public static final Logger logger = LoggerFactory.getLogger(BaseController.class);
 
-  // @Autowired
-  // ResourceBundle resourceBundle;
+  @Autowired
+  ResourceBundle resourceBundle;
 
   @Override
   public String getErrorPath() {
