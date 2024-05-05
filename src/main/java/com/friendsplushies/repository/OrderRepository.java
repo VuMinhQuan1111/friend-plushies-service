@@ -1,6 +1,7 @@
 package com.friendsplushies.repository;
 
 import com.friendsplushies.model.entity.Order;
+import com.friendsplushies.model.entity.OrderCart;
 import com.friendsplushies.model.request.SearchRequest;
 import com.friendsplushies.repository.custom.OrderRepositoryCustom;
 import com.friendsplushies.util.cruds.repository.IRepository;
@@ -23,4 +24,12 @@ public interface OrderRepository extends JpaRepository<Order, Long>, IRepository
     List<Order> searchByUserId(Long userId);
     @Query(value = "SELECT DISTINCT count(o) FROM Order o inner join o.orderCarts oc inner join oc.cart c WHERE c.userId = ?1")
     Long countByUserId(Long userId);
+
+    @Query(value = "SELECT o FROM Order o INNER JOIN o.orderCarts oc INNER JOIN oc.cart c WHERE c.productId = ?1")
+    List<Order> getAllByProductId(Long productId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM OrderCart oc WHERE oc.orderId in ?1")
+    void deleteAllOrderCartByOrderIds(List<Long> orderIds);
 }

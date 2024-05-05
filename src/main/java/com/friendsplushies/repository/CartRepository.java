@@ -24,4 +24,10 @@ public interface CartRepository extends JpaRepository<Cart, Long>, CartRepositor
     void deleteAllOrderCartByCartIds(List<Long> cartId);
 
     List<Cart> findAllByUserId(Long userId);
+
+    List<Cart> getAllByProductId(Long productId);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Cart c SET c.status = 'INACTIVE' WHERE c.productId = ?1")
+    void updateStatusInactiveByProductId(Long productId);
 }

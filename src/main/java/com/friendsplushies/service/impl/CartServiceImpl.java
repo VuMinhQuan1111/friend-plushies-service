@@ -30,7 +30,7 @@ public class CartServiceImpl extends AbstractServiceImpl<CartRequest, CartRespon
     @Override
     @Transactional
     public void deleteAllByProductId(Long productId) {
-        cartRepository.deleteAllByProductId(productId);
+        cartRepository.updateStatusInactiveByProductId(productId);
     }
 
     @Override
