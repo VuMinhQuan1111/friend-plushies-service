@@ -1,5 +1,7 @@
 package com.friendsplushies.config;
 
+import com.friendsplushies.connector.StorageConnector;
+import com.friendsplushies.connector.impl.LocalStorageConnector;
 import com.friendsplushies.util.ResourceBundle;
 import com.sendgrid.SendGrid;
 import javax.validation.Validation;
@@ -16,6 +18,10 @@ import org.springframework.core.env.Environment;
  */
 @Configuration
 public class WebConfig {
+  @Bean
+  public StorageConnector storageConnector() {
+    return new LocalStorageConnector(); // Assuming StorageConnector has a default constructor
+  }
 
   @Bean
   ResourceBundle resourceBundle() {

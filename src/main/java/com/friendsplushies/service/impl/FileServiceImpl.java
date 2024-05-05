@@ -1,36 +1,40 @@
 package com.friendsplushies.service.impl;
 
 import com.amazonaws.HttpMethod;
-import java.util.ArrayList;
-// import java.util.ResourceBundle;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
-import org.apache.commons.collections4.CollectionUtils;
-
 import com.friendsplushies.connector.StorageConnector;
 import com.friendsplushies.model.response.FileUrlDTO;
 import com.friendsplushies.service.FileService;
 import com.friendsplushies.util.ResourceBundle;
-
-import org.springframework.stereotype.Service;
-import java.io.File;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class FileServiceImpl implements FileService {
-    public static final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
+
+  private static final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
+  private final StorageConnector storageConnector;
 
   @Autowired
   ResourceBundle resourceBundle;
 
+
   @Autowired
-  StorageConnector storageConnector;
+  public FileServiceImpl(StorageConnector storageConnector) {
+    this.storageConnector = storageConnector;
+  }
 
   @Override
-  public String createFile(MultipartFile file, String folderPath) throws Exception {
-    return storageConnector.createFile(file.getInputStream(), folderPath, file.getOriginalFilename(), file.getSize(), false).getFilePath();
+  public String createFile(MultipartFile file, String folderPath, Long productId) throws Exception {
+    return storageConnector.createFile(file.getInputStream(), folderPath, file.getOriginalFilename(), file.getSize(), false, productId).getFilePath();
   }
 
   @Override
@@ -60,14 +64,5 @@ public class FileServiceImpl implements FileService {
       storageConnector.removeFile(filePath);
     }
   }
-
-  @Override
-  public String fetchFileFromUrl(String fetchedUrl, String filePath) {
-    return storageConnector.fetchFileFromUrl(fetchedUrl, filePath);
-  }
-
-  @Override
-  public String getPresignedUrl(String key, HttpMethod method) {
-    return storageConnector.getPresignedUrl(key, method);
-  }
 }
+

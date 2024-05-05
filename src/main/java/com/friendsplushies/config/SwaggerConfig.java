@@ -38,9 +38,9 @@ public class SwaggerConfig {
 
   private ApiInfo apiInfo() {
     return new ApiInfoBuilder()
-        .title("Cruise Management Services")
-        .description("Cruise Management Services for client").version("2.0")
-        .contact(new Contact("CataclysmFS", "", "tuadqn@gmail.com"))
+        .title("Friends and Plushies API")
+        .description("Friends and Plushies API").version("2.0")
+        .contact(new Contact("Quan Vu Minh", "", "quanvm@gmail.com"))
         .build();
   }
 

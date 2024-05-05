@@ -4,6 +4,8 @@ import java.util.Properties;
 import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -48,7 +50,7 @@ public class DatabaseConfig {
         .url(dataSourceProperties.getUrl())
         .username(dataSourceProperties.getUsername())
         .password(dataSourceProperties.getPassword())
-//        .type(HikariDataSource.class)
+        .type(HikariDataSource.class)
         .build();
   }
 

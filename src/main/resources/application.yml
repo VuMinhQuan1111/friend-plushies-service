@@ -5,7 +5,6 @@ spring:
       max-request-size: 70MB
 server:
   port: 8080
-  connection-timeout: 30000
 
 ---
 #spring.jackson.serialization.fail-on-empty-beans: false
@@ -41,6 +40,9 @@ datasource:
   properties:
     scanPackage: com.friendsplushies.model.entity
     driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://sydney.cps818o8cub3.ap-southeast-2.rds.amazonaws.com:5432/friend-plushies
+    username: postgres
+    password: "!Red2022"
 
   hibernate:
     hbm2ddl.method: none
@@ -57,14 +59,12 @@ datasource:
 ---
 spring:
   profiles: default
-datasource:
-  properties:
+#datasource:
+#  properties:
 #    url: jdbc:postgresql://crms.c8kw13dzsxcl.ap-southeast-1.rds.amazonaws.com:5432/postgres
 #    username: postgres
 #    password: "Converse123!"
-    url: jdbc:postgresql://sydney.cps818o8cub3.ap-southeast-2.rds.amazonaws.com:5432/friend-plushies
-    username: postgres
-    password: "!Red2022"
+
 #aws:
 #  region: ap-southeast-1
 #  s3:

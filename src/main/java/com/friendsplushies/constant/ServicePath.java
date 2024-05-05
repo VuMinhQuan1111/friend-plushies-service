@@ -13,6 +13,7 @@ public class ServicePath {
   public static final String LOGIN = "/login";
   public static final String LOGOUT = "/logout";
   public static final String SEARCH = "/search";
+  public static final String IMAGE = "/image";
   public static final String FILTER = "/filter";
   public static final String ASSIGN = "/assign";
   public static final String UNASSIGN = "/unassign";

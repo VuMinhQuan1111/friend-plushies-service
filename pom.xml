@@ -237,7 +237,7 @@
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
-        <version>Finchley.RC2</version>
+        <version>Greenwich.RELEASE</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -258,6 +258,7 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
   </repositories>
+
 
   <build>
     <plugins>

@@ -1,28 +1,34 @@
 package com.friendsplushies.connector;
 
 import com.amazonaws.HttpMethod;
-import java.io.IOException;
-import java.io.InputStream;
+import com.friendsplushies.model.exception.FileException;
 import org.springframework.stereotype.Component;
 
-
-public interface StorageConnector {
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
-     * upload file to local
-     *
-     * @param file
-     * @throws Exception
-     */
-    SavingResult createFile(InputStream file, String filePath, String fileName, Long fileSize, Boolean isPublic) throws Exception;
+ * @author VuLD
+ * @date Dec 27, 2016
+ */
+@Component
+public interface StorageConnector {
 
-    void removeFile(String filePath) throws Exception;
+  /**
+   * upload file to local
+   *
+   * @param file
+   * @throws Exception
+   */
+  SavingResult createFile(InputStream file, String filePath, String fileName, Long fileSize, Boolean isPublic, Long productId) throws Exception;
 
-    InputStream downloadFile(String filePath) throws IOException;
+  void removeFile(String filePath) throws Exception;
 
-    String getFileUrl(String filePath);
+  InputStream downloadFile(String filePath) throws IOException;
 
-    String fetchFileFromUrl(String fetchedUrl, String filePath);
+  String getFileUrl(String filePath);
 
-    String getPresignedUrl(String key, HttpMethod method);
+  String fetchFileFromUrl(String fetchedUrl, String filePath);
+
+  String getPresignedUrl(String key, HttpMethod method);
 }
